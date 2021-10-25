@@ -209,8 +209,8 @@ module Expo
 
       def send!(notifications)
         send(notifications).tap do |result|
-          result.each_error do |error| # rubocop:disable Lint/UnreachableLoop
-            raise error
+          result.each_error do |error|
+            raise error if error.is_a?(Error)
           end
         end
       end
@@ -228,11 +228,12 @@ module Expo
           end
 
           errors = parsed_response['errors']
+          data = parsed_response['data']
 
           if errors&.length&.positive?
             ReceiptsWithErrors.new(data: parsed_response, errors: errors)
           else
-            results = parsed_response.map do |receipt_id, data|
+            results = data.map do |receipt_id, data|
               Receipt.new(data: data, receipt_id: receipt_id)
             end
 

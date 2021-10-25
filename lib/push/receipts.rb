@@ -70,7 +70,7 @@ module Expo
       end
 
       def each
-        receipts.each do |receipt|
+        results.each do |receipt|
           next unless receipt.ok?
 
           yield receipt
@@ -87,7 +87,7 @@ module Expo
       end
 
       def unresolved_ids
-        requested_ids - results.keys
+        requested_ids - results.map(&:receipt_id)
       end
 
       private
