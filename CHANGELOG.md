@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+
+- Fix typo in README.md
+- Change `http` version requirement to be loose (4+)
+
 ## 0.1.2
 
 - Add CHANGELOG.md
