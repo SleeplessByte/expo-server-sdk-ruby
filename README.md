@@ -94,7 +94,7 @@ tickets = client.send!(messages)
 # a batch contains failed errors, or completely failed pages:
 #
 tickets.each_error do |error|
-  if error.respond_t?(:explain)
+  if error.respond_to?(:explain)
     puts error.explain
     # => "The device cannot receive push notifications anymore and you should
     #     stop sending messages to the corresponding Expo push token."
