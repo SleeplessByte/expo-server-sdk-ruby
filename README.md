@@ -68,7 +68,7 @@ some_push_tokens.each do |push_token|
   # - #category_id
   #
   messages << client.notification
-    .to(pushToken)
+    .to(push_token)
     .sound('default')
     .body('This is a test notification')
     .data({ withSome: 'data' })
@@ -94,10 +94,7 @@ tickets = client.send!(messages)
 # a batch contains failed errors, or completely failed pages:
 #
 tickets.each_error do |error|
-  if error.is_a?(Error)
-    puts error.message
-    # => "This indicates the entire request had an error"
-  else
+  if error.respond_t?(:explain)
     puts error.explain
     # => "The device cannot receive push notifications anymore and you should
     #     stop sending messages to the corresponding Expo push token."
@@ -111,7 +108,10 @@ tickets.each_error do |error|
 
     error.original_push_token
     # => ExpoPushToken[xxxxxxxxxxxxxxxxxxxxxx]
-  end
+  else
+    puts error.message
+    # => "This indicates the entire request had an error"
+  else
 end
 
 # Later, after the Expo push notification service has delivered the
