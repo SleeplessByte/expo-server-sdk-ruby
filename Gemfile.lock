@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    expo-server-sdk (0.1.0)
+    expo-server-sdk (0.1.1)
       connection_pool (~> 2.2)
       http (~> 5.0)
 
@@ -14,7 +14,7 @@ GEM
     connection_pool (2.2.5)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    ffi (1.15.0-x64-mingw32)
+    ffi (1.15.4-x64-mingw32)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -23,7 +23,7 @@ GEM
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
       llhttp-ffi (~> 0.4.0)
-    http-cookie (1.0.3)
+    http-cookie (1.0.4)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
     llhttp-ffi (0.4.0)
@@ -52,7 +52,7 @@ GEM
     ruby-progressbar (1.11.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.7-x64-mingw32)
+    unf_ext (0.0.8-x64-mingw32)
     unicode-display_width (2.0.0)
 
 PLATFORMS

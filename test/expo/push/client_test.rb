@@ -11,17 +11,15 @@ module Expo
 
       # rubocop:disable Layout/LineLength
       def test_that_it_can_detect_an_expo_push_token
-        client = Expo::Push::Client.new
-
-        assert client.expo_push_token?('ExpoPushToken[xxxxxxxxxxxxxxxxxxxxxx]')
-        assert client.expo_push_token?('ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]')
-        assert client.expo_push_token?('F5741A13-BCDA-434B-A316-5DC0E6FFA94F')
+        assert Expo::Push.expo_push_token?('ExpoPushToken[xxxxxxxxxxxxxxxxxxxxxx]')
+        assert Expo::Push.expo_push_token?('ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]')
+        assert Expo::Push.expo_push_token?('F5741A13-BCDA-434B-A316-5DC0E6FFA94F')
 
         # FCM
-        refute client.expo_push_token?('dOKpuo4qbsM:APA91bHkSmF84ROx7Y-2eMGxc0lmpQeN33ZwDMG763dkjd8yjKK-rhPtiR1OoIWNG5ZshlL8oyxsTnQ5XtahyBNS9mJAvfeE6aHzv_mOF_Ve4vL2po4clMIYYV2-Iea_sZVJF7xFLXih4Y0y88JNYULxFfz-XXXXX')
+        refute Expo::Push.expo_push_token?('dOKpuo4qbsM:APA91bHkSmF84ROx7Y-2eMGxc0lmpQeN33ZwDMG763dkjd8yjKK-rhPtiR1OoIWNG5ZshlL8oyxsTnQ5XtahyBNS9mJAvfeE6aHzv_mOF_Ve4vL2po4clMIYYV2-Iea_sZVJF7xFLXih4Y0y88JNYULxFfz-XXXXX')
 
         # APNs
-        refute client.expo_push_token?('5fa729c6e535eb568g18fdabd35785fc60f41c161d9d7cf4b0bbb0d92437fda0')
+        refute Expo::Push.expo_push_token?('5fa729c6e535eb568g18fdabd35785fc60f41c161d9d7cf4b0bbb0d92437fda0')
       end
       # rubocop:enable Layout/LineLength
     end

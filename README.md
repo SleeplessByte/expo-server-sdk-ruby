@@ -1,5 +1,7 @@
 # Expo::Server::SDK
 
+[![Build status](https://github.com/SleeplessByte/expo-server-sdk-ruby/actions/workflows/main.yml/badge.svg)](https://github.com/SleeplessByte/expo-server-sdk-ruby/actions/workflows/main.yml) [![Gem version](https://img.shields.io/gem/v/expo-server-sdk?label=gem)](https://rubygems.org/gems/expo-server-sdk)
+
 This gem was written because of the relatively little attention and improvement [expo-server-sdk-ruby](https://github.com/expo-community/expo-server-sdk-ruby) receives.
 
 It does **not** work in the same way, so you'll want to read the documentation carefully if you intend to migrate.
@@ -14,11 +16,15 @@ gem 'expo-server-sdk'
 
 And then execute:
 
-    $ bundle install
+```shell
+bundle install
+```
 
 Or install it yourself as:
 
-    $ gem install expo-server-sdk
+```shell
+gem install expo-server-sdk
+```
 
 ## Usage
 
@@ -227,13 +233,17 @@ client = Expo::Push::Client.new(
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies.
+Then, run `rake test` to run the tests.
+You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
+To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/SleeplessByte/expo-server-sdk-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/SleeplessByte/expo-server-sdk-ruby/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at <https://github.com/SleeplessByte/expo-server-sdk-ruby>.
+This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/SleeplessByte/expo-server-sdk-ruby/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -241,4 +251,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the `Expo::Server::SDK` project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/SleeplessByte/expo-server-sdk/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the `Expo::Server::SDK` project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/SleeplessByte/expo-server-sdk/blob/main/CODE_OF_CONDUCT.md).

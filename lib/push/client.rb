@@ -233,8 +233,8 @@ module Expo
           if errors&.length&.positive?
             ReceiptsWithErrors.new(data: parsed_response, errors: errors)
           else
-            results = data.map do |receipt_id, data|
-              Receipt.new(data: data, receipt_id: receipt_id)
+            results = data.map do |receipt_id, receipt_value|
+              Receipt.new(data: receipt_value, receipt_id: receipt_id)
             end
 
             Receipts.new(results: results, requested_ids: receipt_ids)
