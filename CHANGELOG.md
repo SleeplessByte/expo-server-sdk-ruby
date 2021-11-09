@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- Change `ruby` version requirement to major only (2.6+)
+
 ## 0.1.3
 
 - Fix typo in README.md

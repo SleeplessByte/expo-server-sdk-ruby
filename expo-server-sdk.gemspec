@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
                        'has many outstanding issues and open pull requests.'
   spec.homepage      = 'https://github.com/sleeplessbyte/expo-server-sdk-ruby'
   spec.license       = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.6.8')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
 
   # spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
 
