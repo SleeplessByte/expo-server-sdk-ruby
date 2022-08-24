@@ -235,7 +235,7 @@ client = Expo::Push::Client.new(
 )
 ```
 
-## Example of error handling
+### Example of error handling
 
 Here is an example of error handling when using Rails, given a Rails model called `PushNotificationToken`.
 
@@ -260,6 +260,8 @@ tickets.each_error do |error|
       # this happened. If it keeps happening, there is a bug in the query
       # or registration code.
       if error_data['code'] == "PUSH_TOO_MANY_EXPERIENCE_IDS"
+      
+        # Go through all the details
         error_data['details'].each do |correct_experience, tokens|
         
           # Find the incorrect instances
@@ -285,51 +287,51 @@ tickets.each_error do |error|
           end
         end
         
-        # If there is a different error, report to our error tracker
-        else
-          retryable = false
-          # Otherwise, notify as actual error.
-          Bugsnag.notify(error_data)
-        end
+      # If there is a different error, report to our error tracker
+      else
+        retryable = false
+        # Otherwise, notify as actual error.
+        Bugsnag.notify(error_data)
       end
-      
-      if retries > 10
-        return Bugsnag.notify(
-          StandardError.new(
-            'Not sending push notification because it was retried > 10 times.'
-          )
-        )
-      end
-
-      # If the error is not a fatal one, the push can be retried. This helps
-      # with making sure you always send the push notification(s) even when
-      # the service intermittendly fails.
-      if retryable
-        ScheduledPushNotificationJob
-          .set(wait: 1.minute * (retries + 1))
-          .perform_later(
-            notification: notification,
-            event: event,
-            updated_at: updated_at,
-            retries: retries + 1
-          )
-      end
-      
-    # Otherwise it's an explanable error
-    elsif error.respond_to?(:explain)
-      
-      # If the error contains a token it always needs to be removed
-      original_token = error.original_push_token
-      next unless original_token
-
-      PushNotificationToken.where(push_token: original_token).destroy_all
-    else
-    
-      # Notify us of any other type of error
-      Bugsnag.notify(error)
     end
+      
+    if retries > 10
+      return Bugsnag.notify(
+        StandardError.new(
+          'Not sending push notification because it was retried > 10 times.'
+        )
+      )
+    end
+
+    # If the error is not a fatal one, the push can be retried. This helps
+    # with making sure you always send the push notification(s) even when
+    # the service intermittendly fails.
+    if retryable
+      ScheduledPushNotificationJob
+        .set(wait: 1.minute * (retries + 1))
+        .perform_later(
+          notification: notification,
+          event: event,
+          updated_at: updated_at,
+          retries: retries + 1
+        )
+    end
+      
+  # Otherwise it's an explanable error
+  elsif error.respond_to?(:explain)
+      
+    # If the error contains a token it always needs to be removed
+    original_token = error.original_push_token
+    next unless original_token
+
+    PushNotificationToken.where(push_token: original_token).destroy_all
+  else
+    
+    # Notify us of any other type of error
+    Bugsnag.notify(error)
   end
 end
+
 ```
 
 ## Development
