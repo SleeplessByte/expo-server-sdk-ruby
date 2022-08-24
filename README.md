@@ -29,11 +29,15 @@ gem install expo-server-sdk
 ## Usage
 
 ```ruby
-require 'expo-server-sdk'
+# Not necessary in Rails. Zeitwerk will require this correctly for you.
+require 'expo/server/sdk'
 
 # Create a new Expo SDK client optionally providing an access token if you
 # have enabled push security
-client = Expo::Push::Client.new(accessToken: '<access-token>');
+client = Expo::Push::Client.new(access_token: '<access-token>');
+
+# If you do not have an access token, you can call it like this:
+# client = Expo::Push::Client.new
 
 # Create the messages that you want to send to clients
 messages = [];
@@ -229,6 +233,103 @@ client = Expo::Push::Client.new(
     namespace: "my_http"
   }
 )
+```
+
+## Example of error handling
+
+Here is an example of error handling when using Rails, given a Rails model called `PushNotificationToken`.
+
+The most important thing is that you remove push tokens that are invalid, you fix push tokens that don't have the right experience ID and you stop sending push notifications if you're not allowed (e.g. the device is no longer registered).
+
+```ruby
+# Remove invalid push notification tokens, and remove tokens that failed
+# and contain a token (DeviceNotRegistered)
+tickets.each_error do |error|
+
+  if error.is_a?(Expo::Push::PushTokenInvalid)
+    # Destroy the tokens that match because they are not valid
+    PushNotificationToken.where(push_token: error.token).destroy_all
+  
+  elsif error.is_a?(Expo::Push::TicketsWithErrors)
+    retryable = true
+
+    error.errors.each do |error_data|
+      
+      # This block tries to fix the token experiences, and then reschedules
+      # the job. When it fixes tokens, it notifies bugsnag, so we know that
+      # this happened. If it keeps happening, there is a bug in the query
+      # or registration code.
+      if error_data['code'] == "PUSH_TOO_MANY_EXPERIENCE_IDS"
+        error_data['details'].each do |correct_experience, tokens|
+        
+          # Find the incorrect instances
+          instances = PushNotificationToken
+            .where.not(experience_id: correct_experience)
+            .where(push_token: tokens)
+
+          next if instances.blank?
+          next unless instances.update_all(experience_id: correct_experience)
+
+          instances.each do |instance|
+            Bugsnag.notify(
+              StandardError.new(
+                format(
+                  'When trying to push, a push token (token: %s) had the wrong experience id (old: %s). ' \
+                  'It has been updated (%s).',
+                  instance.push_token,
+                  instance.experience_id_was,
+                  instance.experience_id
+                )
+              )
+            )
+          end
+        end
+        
+        # If there is a different error, report to our error tracker
+        else
+          retryable = false
+          # Otherwise, notify as actual error.
+          Bugsnag.notify(error_data)
+        end
+      end
+      
+      if retries > 10
+        return Bugsnag.notify(
+          StandardError.new(
+            'Not sending push notification because it was retried > 10 times.'
+          )
+        )
+      end
+
+      # If the error is not a fatal one, the push can be retried. This helps
+      # with making sure you always send the push notification(s) even when
+      # the service intermittendly fails.
+      if retryable
+        ScheduledPushNotificationJob
+          .set(wait: 1.minute * (retries + 1))
+          .perform_later(
+            notification: notification,
+            event: event,
+            updated_at: updated_at,
+            retries: retries + 1
+          )
+      end
+      
+    # Otherwise it's an explanable error
+    elsif error.respond_to?(:explain)
+      
+      # If the error contains a token it always needs to be removed
+      original_token = error.original_push_token
+      next unless original_token
+
+      PushNotificationToken.where(push_token: original_token).destroy_all
+    else
+    
+      # Notify us of any other type of error
+      Bugsnag.notify(error)
+    end
+  end
+end
 ```
 
 ## Development
