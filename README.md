@@ -115,7 +115,7 @@ tickets.each_error do |error|
   else
     puts error.message
     # => "This indicates the entire request had an error"
-  else
+  end
 end
 
 # Later, after the Expo push notification service has delivered the
