@@ -12,10 +12,11 @@ module Expo
     # valid. This is exposed via #original_push_token.
     #
     class Ticket
-      attr_reader :data
+      attr_reader :data, :token
 
-      def initialize(data)
+      def initialize(data, token)
         self.data = data
+        self.token = token
       end
 
       def id
@@ -23,13 +24,7 @@ module Expo
       end
 
       def original_push_token
-        return nil if ok?
-
-        if message.include?('PushToken[')
-          return /Expo(?:nent)?PushToken\[(?:[^\]]+?)\]/.match(message) { |match| match[0] }
-        end
-
-        /\A[a-z\d]{8}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{4}-[a-z\d]{12}\z/i.match(message) { |match| match[0] }
+        token
       end
 
       def message
@@ -50,7 +45,7 @@ module Expo
 
       private
 
-      attr_writer :data
+      attr_writer :data, :token
     end
 
     ##
@@ -77,6 +72,13 @@ module Expo
       def ids
         [].tap do |ids|
           each { |ticket| ids << ticket.id }
+        end
+      end
+
+      def tokens_by_receipt_id_hash
+        tokens_by_receipt_id = Hash.new { |hash, key| hash[key] = [] }
+        tokens_by_receipt_id.tap do |hash|
+          each { |ticket| hash[ticket.id] = ticket.original_push_token }
         end
       end
 
