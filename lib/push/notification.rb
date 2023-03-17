@@ -330,8 +330,6 @@ module Expo
       end
 
       def as_json
-        puts _params
-
         { to: recipients }.merge(_params.compact)
       end
 
