@@ -184,7 +184,6 @@ module Expo
         threads = Chunk.for(notifications).map do |chunk|
           expected_count = chunk.count
           tokens = chunk.all_recipients
-
           Thread.new do
             pool.with do |http|
               response = http.post(PUSH_API_URL, json: chunk.as_json)
@@ -199,8 +198,8 @@ module Expo
                 TicketsExpectationFailed.new(expected_count: expected_count, data: data)
               else
                 data.map do |ticket|
-                  currentTicketToken = tokens.shift(1)[0]
-                  Ticket.new(ticket, currentTicketToken)
+                  current_ticket_token = tokens.shift(1)[0]
+                  Ticket.new(ticket, current_ticket_token)
                 end
               end
             end
