@@ -75,8 +75,8 @@ module Expo
         end
       end
 
-      def tokens_by_receipt_id_hash
-        tokens_by_receipt_id = Hash.new { |hash, key| hash[key] = [] }
+      def token_by_receipt_id
+        tokens_by_receipt_id = {}
         tokens_by_receipt_id.tap do |hash|
           each { |ticket| hash[ticket.id] = ticket.original_push_token }
         end
