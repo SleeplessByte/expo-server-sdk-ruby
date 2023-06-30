@@ -256,7 +256,7 @@ module Expo
             'User-Agent': format('expo-server-sdk-ruby/%<version>s', version: VERSION)
           )
 
-          http = http.headers('Authorization', "Bearer #{access_token}") if access_token
+          http = http.auth("Bearer #{access_token}") if access_token
 
           # All requests are allowed to automatically gzip
           http = http.use(:auto_inflate)
