@@ -1,17 +1,17 @@
 PATH
   remote: .
   specs:
-    expo-server-sdk (0.1.5)
+    expo-server-sdk (0.1.6)
       connection_pool (~> 2.2)
       http (>= 4.0, < 6.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.2)
+    addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
-    connection_pool (2.4.0)
+    connection_pool (2.4.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     ffi (1.15.5-x64-mingw32)
