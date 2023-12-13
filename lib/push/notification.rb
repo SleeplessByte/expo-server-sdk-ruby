@@ -280,6 +280,23 @@ module Expo
       end
 
       ##
+      # Set or overwrite content available.
+      #
+      # Must be a boolean or nil, or an ArgumentError is raised.
+      #
+      # On iOS, use this to trigger a background fetch action.
+      # Under normal circumstances, the "content-available" flag should launch
+      # your app if it isn't running and wasn't killed by the user. However,
+      # this is ultimately decided by the OS, so it might not always happen.
+      #
+      def content_available(value)
+        raise ArgumentError, 'content_available must be boolean or nil' unless [true, false, nil].include?(value)
+
+        _params[:contentAvailable] = value
+        self
+      end
+
+      ##
       # Set or overwrite the mutability flag.
       #
       # Use nil to use the defaults.
