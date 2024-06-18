@@ -140,7 +140,7 @@ module Expo
     BASE_URL = 'https://exp.host'
     BASE_API_URL = '/--/api/v2'
 
-    PUSH_API_URL = "#{BASE_API_URL}/push/send"
+    PUSH_API_URL = "#{BASE_API_URL}/push/send?useFcmV1=true"
     RECEIPTS_API_URL = "#{BASE_API_URL}/push/getReceipts"
 
     ##
