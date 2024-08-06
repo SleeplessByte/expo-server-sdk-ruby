@@ -33,6 +33,10 @@ module Expo
         data.fetch('message')
       end
 
+      def error_message
+        data.fetch('details').fetch('error')
+      end
+
       def explain
         Expo::Push::Error.explain((data['details'] || {})['error'])
       end
