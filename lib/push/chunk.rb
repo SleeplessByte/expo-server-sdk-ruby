@@ -49,6 +49,10 @@ module Expo
         notifications.map(&:as_json)
       end
 
+      def all_recipients
+        notifications.flat_map(&:recipients)
+      end
+
       private
 
       attr_accessor :notifications
